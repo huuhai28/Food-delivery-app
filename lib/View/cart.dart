@@ -44,7 +44,7 @@ class Cart extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  " Cart",
+                  "My Cart",
                   style: TextStyle(
                     color: kblack,
                     fontWeight: FontWeight.w600,
