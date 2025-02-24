@@ -27,9 +27,7 @@ class Cart extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black12,
-                    ),
+                    border: Border.all(color: Colors.black12),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Padding(
