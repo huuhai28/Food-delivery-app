@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../Model/bottom_icon_model.dart';
 import '../consts.dart';
 import 'home_page.dart';
+import 'profile_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,9 +16,7 @@ class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
   final List selectedPage = [
     const HomePage(),
-    const Center(child: Text("Message Page")),
-    const Center(child: Text("Explore Page")),
-    const Center(child: Text("Profile Page")),
+    ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {

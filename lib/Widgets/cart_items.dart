@@ -1,25 +1,33 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../Model/cart_model.dart';
 import '../Provider/cart_provider.dart';
 import '../consts.dart';
 
 class CartItems extends StatelessWidget {
   final CartModel cart;
-  const CartItems({super.key, required this.cart});
+  final bool showControls;
+
+  const CartItems({
+    Key? key,
+    required this.cart,
+    required this.showControls,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     Size size = MediaQuery.of(context).size;
+
     return SizedBox(
       height: 140,
       width: size.width / 1.2,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
+          // Hộp chứa thông tin sản phẩm
           Container(
             height: 130,
             width: size.width - 50,
@@ -28,6 +36,8 @@ class CartItems extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
+
+          // Hình ảnh sản phẩm
           Positioned(
             top: -5,
             left: 0,
@@ -65,6 +75,8 @@ class CartItems extends StatelessWidget {
               ),
             ),
           ),
+
+          // Thông tin sản phẩm
           Positioned(
             left: 150,
             right: 20,
@@ -72,6 +84,7 @@ class CartItems extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Tên sản phẩm
                 Text(
                   cart.productModel.name,
                   maxLines: 1,
@@ -82,47 +95,41 @@ class CartItems extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
+
+                // Đánh giá & Khoảng cách
                 Row(
                   children: [
                     Row(
                       children: [
-                        const Icon(
-                          Icons.star_rate_rounded,
-                          color: kyellow,
-                          size: 20,
-                        ),
+                        const Icon(Icons.star_rate_rounded,
+                            color: kyellow, size: 20),
                         const SizedBox(width: 5),
                         Text(
                           cart.productModel.rate.toString(),
-                          style: TextStyle(
-                            color: kblack.withOpacity(0.8),
-                          ),
+                          style: TextStyle(color: kblack.withOpacity(0.8)),
                         ),
                       ],
                     ),
                     const SizedBox(width: 20),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.location_on,
-                          color: kpink,
-                          size: 20,
-                        ),
+                        const Icon(Icons.location_on, color: kpink, size: 20),
                         Text(
                           "${cart.productModel.distance}m",
-                          style: TextStyle(
-                            color: kblack.withOpacity(0.8),
-                          ),
-                        )
+                          style: TextStyle(color: kblack.withOpacity(0.8)),
+                        ),
                       ],
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
+
+                // Giá tiền và Số lượng sản phẩm
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    // Giá sản phẩm
                     Text(
                       "\$${(cart.productModel.price).toStringAsFixed(2)}",
                       style: const TextStyle(
@@ -132,62 +139,67 @@ class CartItems extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (cart.quantity > 1) {
-                              cartProvider.recuceQuantity(cart.productModel);
-                            }
-                          },
-                          child: Container(
-                            width: 25,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: kblack,
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(7),
+
+                    // Nếu `showControls` == true thì hiện nút tăng giảm
+                    showControls
+                        ? Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (cart.quantity > 1) {
+                                    cartProvider
+                                        .recuceQuantity(cart.productModel);
+                                  }
+                                },
+                                child: Container(
+                                  width: 25,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                    color: kblack,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(7)),
+                                  ),
+                                  child: const Icon(Icons.remove,
+                                      color: Colors.white, size: 20),
+                                ),
                               ),
-                            ),
-                            child: const Icon(
-                              Icons.remove,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          cart.quantity.toString(),
-                          style: const TextStyle(
-                            color: kblack,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () {
-                            cartProvider.addCart(cart.productModel);
-                          },
-                          child: Container(
-                            width: 25,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: kblack,
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(7),
+                              const SizedBox(width: 10),
+                              Text(
+                                cart.quantity.toString(),
+                                style: const TextStyle(
+                                  color: kblack,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 20,
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  cartProvider.addCart(cart.productModel);
+                                },
+                                child: Container(
+                                  width: 25,
+                                  height: 40,
+                                  decoration: const BoxDecoration(
+                                    color: kblack,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(7)),
+                                  ),
+                                  child: const Icon(Icons.add,
+                                      color: Colors.white, size: 20),
+                                ),
+                              ),
+                            ],
+                          )
+                        // Nếu `showControls` == false thì chỉ hiển thị số lượng
+                        : Text(
+                            "Totals: ${cart.quantity}",
+                            style: const TextStyle(
+                              color: kblack,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ],

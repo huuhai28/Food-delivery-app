@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../Model/cart_model.dart';
 import '../Provider/cart_provider.dart';
 import '../Widgets/cart_items.dart';
@@ -20,6 +19,7 @@ class Cart extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
+          SizedBox(height: 25),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Row(
@@ -82,6 +82,7 @@ class Cart extends StatelessWidget {
                                     200), // after this animation is applied in all items one by one
                             child: CartItems(
                               cart: carts[index],
+                              showControls: true,
                             ),
                           ),
                         ],
